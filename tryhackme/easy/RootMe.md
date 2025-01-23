@@ -80,11 +80,11 @@ Finished
 
 Two noteworthy directories are `/uploads` and `/panel`. Visiting `http://10.10.80.208/uploads/` returns a page that appears to be the location where files uploaded to the server are stored. Visiting `http://10.10.80.208/panel/` shows us a file upload form and seems to be the hidden directory we are looking for.
 
-![](rootme-panel-directory.png)
+![](images/rootme-panel-directory.png)
 
 I uploaded a `.jpeg` image to confirm that files uploaded through this form can be accessed in the `/uploads` path.
 
-![](rootme-jpeg-upload.png)
+![](images/rootme-jpeg-upload.png)
 ## Getting a shell
 *Find a form to upload and get a reverse shell, and find the flag.*
 
@@ -125,29 +125,29 @@ GitHub: https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/refs/h
 AttackBox: `/usr/share/webshells/php/php-reverse-shell.php`
 
 Remember to change the commented lines to your local IP and listening port in the file.
-![](rootme-rev-shell-local.png)
+![](images/rootme-rev-shell-local.png)
 
 If you try to upload the reverse shell a message is displayed saying that `.php` are blocked from being uploaded to the server.
 
-![](rootme-upload-php-shell.png)
-![](rootme-php-restriction.png)
+![](images/rootme-upload-php-shell.png)
+![](images/rootme-php-restriction.png)
 
 We can try to change the file extension to an alternate PHP extension that would still allow the shell to run, but may not have been restricted for uploads. I used some of these in the Gobuster scan: `php,php3,php4,php5,phtml` and we saw that `.phtml` was present on the server. So I tried renaming the reverse shell file to `php-reverse-shell.phtml`.
 
-![](rootme-upload-phtml-shell.png)
-![](rootme-successful-upload.png)
+![](images/rootme-upload-phtml-shell.png)
+![](images/rootme-successful-upload.png)
 Changing the extension to `.phtml` allowed us to bypass the site file type restrictions and the file uploads successfully! And we can now see the file in the `/uploads` directory.
 
-![](rootme-phtml-upload.png)
+![](images/rootme-phtml-upload.png)
 
 Before opening this file in our browser we need to start a netcat listener on our local machine to catch the reverse shell connection. This command needs to run with the same port specified in the `php-reverse-shell.phtml` file.
 
 **Command:** `nc -lvnp 5555`
 
 Executing the file through the browser initiates a reverse shell with `www-data` privileges. 
-![](rootme-www-data-priv.png)
+![](images/rootme-www-data-priv.png)
 After looking around the server a bit I found the `user.txt` flag in the `var/www` directory.
-![](rootme-user-flag.png)
+![](images/rootme-user-flag.png)
 ## Privilege escalation
 *Now that we have a shell, let's escalate our privileges to root.*
 #### Search for files with SUID permission, which file is weird?
@@ -157,7 +157,7 @@ With the below command we can search for files that are owned by root and have S
 
 **Command:** `find / -user root -perm /4000 2>/dev/null
 
-![](rootme-suid-perm.png)
+![](images/rootme-suid-perm.png)
 
 Python showing up in this search is noteworthy because it will let us execute commands as the current user with root privileges.
 #### Find a form to escalate your privileges.
@@ -167,7 +167,7 @@ The command shown in GFTOBins will invoke `/bin/sh` with the `-p` flag, preservi
 
 **Command:** `python -c 'import os; os.execl("/bin/sh", "sh", "-p")'`
 
-![](rootme-escalate.png)
+![](images/rootme-escalate.png)
 #### root.txt
 **Answer:** THM{pr1v1l3g3_3sc4l4t10n}
 
