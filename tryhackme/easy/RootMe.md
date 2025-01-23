@@ -125,6 +125,7 @@ GitHub: https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/refs/h
 AttackBox: `/usr/share/webshells/php/php-reverse-shell.php`
 
 Remember to change the commented lines to your local IP and listening port in the file.
+
 ![](images/rootme-rev-shell-local.png)
 
 If you try to upload the reverse shell a message is displayed saying that `.php` are blocked from being uploaded to the server.
@@ -136,6 +137,7 @@ We can try to change the file extension to an alternate PHP extension that would
 
 ![](images/rootme-upload-phtml-shell.png)
 ![](images/rootme-successful-upload.png)
+
 Changing the extension to `.phtml` allowed us to bypass the site file type restrictions and the file uploads successfully! And we can now see the file in the `/uploads` directory.
 
 ![](images/rootme-phtml-upload.png)
@@ -146,6 +148,7 @@ Before opening this file in our browser we need to start a netcat listener on ou
 
 Executing the file through the browser initiates a reverse shell with `www-data` privileges. 
 ![](images/rootme-www-data-priv.png)
+
 After looking around the server a bit I found the `user.txt` flag in the `var/www` directory.
 ![](images/rootme-user-flag.png)
 ## Privilege escalation
