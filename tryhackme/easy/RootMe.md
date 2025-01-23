@@ -122,6 +122,7 @@ zsh: suspended  gobuster dir -u http://10.10.80.208 -w  -x
 Since the scan returned `.php` and `.phtml` directories and files on the server I tried with the "php-reverse-shell" script by pentestmonkey. 
 
 GitHub: https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/refs/heads/master/php-reverse-shell.php
+
 AttackBox: `/usr/share/webshells/php/php-reverse-shell.php`
 
 Remember to change the commented lines to your local IP and listening port in the file.
