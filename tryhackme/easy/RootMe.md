@@ -1,4 +1,5 @@
 *A ctf for beginners, can you root me?*
+
 **Difficulty:** Easy
 ## Reconnaissance
 
@@ -33,15 +34,11 @@ The scan shows two open ports:
 
 The results give us enough to answer the first three questions.
 #### Scan the machine, how many ports are open?
-**Answer:** 2
-
-Since the expected answer matches the number of open ports we found by scanning the top 1000, there is no need to further scan the full range of ports.
+This can be found from the nmap scan. Since the expected answer matches the number of open ports we found by scanning the top 1000, there is no need to further scan the full range of ports.
 #### What version of Apache is running?
-**Answer:** 2.4.29
-
 This can be seen in the `http-server-header` field of the scan results of port 80.
 #### What service is running on port 22?
-**Answer:** ssh
+Refer to nmap scan to answer this question.
 #### Find directories on the web server using the GoBuster tool. 
 Now we need to enumerate the http service for any hidden directories using Gobuster. This will brute-force check using a wordlist of popular directory names. 
 
@@ -76,8 +73,6 @@ Finished
 ```
 
 #### What is the hidden directory?
-**Answer:** /panel/
-
 Two noteworthy directories are `/uploads` and `/panel`. Visiting `http://10.10.80.208/uploads/` returns a page that appears to be the location where files uploaded to the server are stored. Visiting `http://10.10.80.208/panel/` shows us a file upload form and seems to be the hidden directory we are looking for.
 
 ![](images/rootme-panel-directory.png)
@@ -155,8 +150,6 @@ After looking around the server a bit I found the `user.txt` flag in the `var/ww
 ## Privilege escalation
 *Now that we have a shell, let's escalate our privileges to root.*
 #### Search for files with SUID permission, which file is weird?
-**Answer:** `/usr/bin/python`
-
 With the below command we can search for files that are owned by root and have SUID permissions.
 
 **Command:** `find / -user root -perm /4000 2>/dev/null
@@ -173,7 +166,5 @@ The command shown in GFTOBins will invoke `/bin/sh` with the `-p` flag, preservi
 
 ![](images/rootme-escalate.png)
 #### root.txt
-**Answer:** THM{pr1v1l3g3_3sc4l4t10n}
-
 We can now access the root directory and find the root flag!
 ![](rootme-root-flag.png)
