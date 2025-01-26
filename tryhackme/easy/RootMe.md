@@ -127,6 +127,7 @@ Remember to change the commented lines to your local IP and listening port in th
 If you try to upload the reverse shell a message is displayed saying that `.php` are blocked from being uploaded to the server.
 
 ![](images/rootme-upload-php-shell.png)
+
 ![](images/rootme-php-restriction.png)
 
 We can try to change the file extension to an alternate PHP extension that would still allow the shell to run, but may not have been restricted for uploads. I used some of these in the Gobuster scan: `php,php3,php4,php5,phtml` and we saw that `.phtml` was present on the server. So I tried renaming the reverse shell file to `php-reverse-shell.phtml`.
