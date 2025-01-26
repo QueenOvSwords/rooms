@@ -167,4 +167,5 @@ The command shown in GFTOBins will invoke `/bin/sh` with the `-p` flag, preservi
 ![](images/rootme-escalate.png)
 #### root.txt
 We can now access the root directory and find the root flag!
+
 ![](images/rootme-root-flag.png)
