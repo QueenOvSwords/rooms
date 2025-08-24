@@ -181,5 +181,6 @@ Sun Apr 11 09:36:08 2021 [pid 8154] [ftp] OK DOWNLOAD: Client "::ffff:192.168.10
 Looking in `auth.log`, there are a lot of authentication errors for the user `www-data`, but eventually are followed by an "Accepted password for www-data" entry and one saying a session was spawned for the same user. The logs also show "sshd:session", meaning the serviced used to get a shell was SSH.
 
 ```
-Apr 11 09:41:19 thunt sshd[8260]: Accepted password for www-data from 192.168.10.5 port 40112 ssh2 Apr 11 09:41:19 thunt sshd[8260]: pam_unix(sshd:session): session opened for user www-data by (uid=0) Apr 11 09:41:19 thunt systemd-logind[737]: New session 12 of user www-data.
+Apr 11 09:41:19 thunt sshd[8260]: Accepted password for www-data from 192.168.10.5 port 40112 ssh2
+Apr 11 09:41:19 thunt sshd[8260]: pam_unix(sshd:session): session opened for user www-data by (uid=0) Apr 11 09:41:19 thunt systemd-logind[737]: New session 12 of user www-data.
 ```
