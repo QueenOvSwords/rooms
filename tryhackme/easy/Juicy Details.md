@@ -23,7 +23,7 @@ Analyze the provided log files. Look carefully at:
 **What tools did the attacker use? (Order by the occurrence in the log)**  
 **Hint:** *Look at access.log. User-Agent headers are helpful*
 
-Looking through `access.log` and the provided hint, I noticed the User-Agent field contained common (recon/red/?) tools like Nmap. I did some research on how to extract the segment of each log entry containing the User-Agent.
+Looking through `access.log` and the provided hint, I noticed the User-Agent field contained common recon tools like Nmap. I did some research on how to extract the segment of each log entry containing the User-Agent.
 
 The command `awk -F\" '{print $(NF-1)}' access.log | uniq`, tells`awk` to split each line into fields at the `"` character and print the 2nd to last field. Although the User-Agent appears to be the last part of leach log entry, `awk` will create a blank field due to a space after the User-Agent. Limiting this output to only unique User-Agents showed me 5 different tools used by the attacker.
 
@@ -43,7 +43,7 @@ Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0
 
 **What endpoint was vulnerable to a brute-force attack?**
 
-Hydra is used for conducting brute force attacks. I used a similar command to get unique endpoint paths of each log containing "Hydra" in the User-Agent. This return GET and POST requests to a single endpoint.
+Hydra is used for conducting brute force attacks. I used a similar command to get unique endpoint paths of each log containing "Hydra" in the User-Agent. This returned GET and POST requests to a single endpoint.
 
 $ `cat access.log | grep "Hydra" | awk -F\" '{print $(NF - 5)}' | sort | uniq`
 
@@ -67,13 +67,13 @@ GET /rest/products/search?q=1.9xqhL HTTP/1.1
 
 **What parameter was used for the SQL injection?**
 
-From the requests return, we can see portions of SQL queries injected into the "q" parameter.
+From the requests returnedt, we can see portions of SQL queries injected into the "q" parameter.
 
 `GET /rest/products/search?q=81%29%3BSELECT%20DBMS_PIPE.RECEIVE_MESSAGE%28CHR%28110%29%7C%7CCHR%2869%29%7C%7CCHR%28113%29%7C%7CCHR%2872%29%2C5%29%20FROM%20DUAL-- HTTP/1.1`
 
 **What endpoint did the attacker try to use to retrieve files? (Include the /)**
 
-I first though to search for uses of curl, but that appeared to be only used in a SQL injection attempt. I looked at the unfiltered list of endpoints in `access.log` and noticed the below entries:
+I first thought to search for uses of curl, but that appeared to be only used in a SQL injection attempt. I looked at the unfiltered list of endpoints in `access.log` and noticed the below entries:
 
 ```
 GET /ftp HTTP/1.1
@@ -103,13 +103,13 @@ Analyze the provided log files. Look carefully at:
 **What section of the website did the attacker use to scrape user email addresses?**
 **Hint:** Where can customers usually comment on a shopping website?
 
-I figured out this questions after answering the following one, so I had the time the brute force attack was successful, meaning the attacker likely already had an email address they were trying to use to login. I looked at entries of `access.log` before that time and saw a lot of requests to product reviews, which made sense with the given hint that a user's email address might be shown on a product review. The command below can be used to see these log entries.
+I figured out this question after answering the following one, so I had the time the brute force attack was successful, meaning the attacker likely already had an email address they were trying to use to login. I looked at entries of `access.log` before that time and saw a lot of requests to product reviews, which made sense with the given hint that a user's email address might be shown on a product review. The command below can be used to see these log entries.
 
 $ `cat access.log | grep "reviews"`
 
 **Was their brute-force attack successful? If so, what is the timestamp of the successful login? (Yay/Nay, 11/Apr/2021:09:xx:xx +0000)**
 
-I filtered `access.log` to show requests to the login page that were successful with a return code of 200. A couple were returned, but only one with the use of Hydra, which fit for this questions asking about a successful brute force attack.
+I filtered `access.log` to show requests to the login page that were successful with a return code of 200. A couple were returned, but only one with the use of Hydra, which fit for this question asking about a successful brute force attack.
 
 $ `cat access.log | grep "login" | grep "200"`
 
@@ -178,7 +178,7 @@ Sun Apr 11 09:36:08 2021 [pid 8154] [ftp] OK DOWNLOAD: Client "::ffff:192.168.10
 
 **What service and username were used to gain shell access to the server? (service, username)**
 
-Looking in `auth.log`, there are a lot of authentication errors for the user `www-data`, but eventually are followed by an "Accepted password for www-data" entry and one saying a session was spawned for the same user. The logs also show "sshd:session", meaning the serviced used to get a shell was SSH.
+Looking in `auth.log`, there are a lot of authentication errors for the user `www-data`, but eventually are followed by an "Accepted password for www-data" entry and one saying a session was spawned for the same user. The logs also show "sshd:session", meaning the service used to get a shell was SSH.
 
 ```
 Apr 11 09:41:19 thunt sshd[8260]: Accepted password for www-data from 192.168.10.5 port 40112 ssh2
