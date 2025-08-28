@@ -22,6 +22,7 @@
 - Belongs to CEO
 - Confirmed to the compromised
 - Contained cached credentials for `WIN-015`
+  
 `WIN-015`
 - 192.168.1.195
 - Belongs to Cain Omoore
