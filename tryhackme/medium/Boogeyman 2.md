@@ -18,8 +18,6 @@ The following tools will help us analyze the provided artifacts and are availabl
 
 Maxine, a Human Resource Specialist working for Quick Logistics LLC, received an application from one of the open positions in the company. Unbeknownst to her, the attached resume was malicious and compromised her workstation.
 
-![](https://tryhackme-images.s3.amazonaws.com/user-uploads/5dbea226085ab6182a2ee0f7/room-content/3179f87c7b1815007fe33e6b8e14de6e.png)  
-
 The security team was able to flag some suspicious commands executed on the workstation of Maxine, which prompted the investigation. Given this, you are tasked to analyse and assess the impact of the compromise.
 
 #### Questions
